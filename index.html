@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>String to btoa</title>
+        <style>
+            .container {
+                display: flex;
+                width: 80%;
+                padding: 2em !important;
+                margin: auto;
+                text-align: center;
+                border: 1px solid #ccc;
+                padding: 20px;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                border-radius: 4px;
+                flex-direction: column;
+                flex-wrap: wrap;
+                align-content: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+            textarea {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                resize: vertical;
+            }
+            #notification {
+                display: none;
+                color: green;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+    <div class="container">
+        <h1>Convert a String to btoa</h1>
+
+        <label for="inputString">Input String:</label>
+        <textarea id="inputString" rows="10" placeholder="Enter your string here"></textarea>
+        <div style="display: flex;justify-content: space-around;align-items: center;flex-wrap: nowrap;margin: 2em 1em;width: 50%;">
+            <button onclick="convertToBtoa()">Convert</button>
+            <button onclick="saveToLocalStorage()">Save To LS</button>
+            <button onclick="getTheLocalStorageData()">Get DATA From LS</button>
+        </div>
+        <h2>Result: Click on Result text to copy</h2>
+        <p id="result" onclick="copyToClipboard()" ></p>
+        <span id="notification"></span>
+    </div>
+
+        <Script>
+            function saveToLocalStorage() {
+                const inputString = document.getElementById('inputString').value;
+                if (inputString != null) {
+                    localStorage.setItem("storage", btoa(inputString))
+                    showNotification("Copied to Storage")
+                } else {
+                    showNotification("Text Editor is null")
+                }
+            }
+
+            function getTheLocalStorageData() {
+                const valueStorage = localStorage.getItem("storage")
+                if (valueStorage) {
+                    document.getElementById('inputString').value = atob(valueStorage);
+                    showNotification("Got Text from Local Storage")
+                } else {
+                    showNotification("No text Found")
+                }
+            }
+
+            function convertToBtoa() {
+                const inputString = document.getElementById('inputString').value;
+                const result = btoa(inputString);
+                document.getElementById('result').innerText = result;
+            }
+            function copyToClipboard() {
+                const str = document.getElementById('result').innerText;
+                const el = document.createElement('textarea');
+                el.value = str;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                showNotification();
+
+            }
+
+            function showNotification(defText = "Copied to clipboard") {
+                const notification = document.getElementById('notification');
+                notification.style.display = "inline";
+                notification.innerText = defText;
+            
+                setTimeout(() => {
+                    notification.style.display = "none";
+                }, 2000);
+            } 
+
+        </Script>
+    </body>
+</html>
