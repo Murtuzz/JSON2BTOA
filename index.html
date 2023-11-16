@@ -56,6 +56,13 @@
     </div>
 
         <Script>
+            const darkCheck = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            if (darkCheck) {
+                document.body.style.backgroundColor = "rgb(22 30 37)";
+                document.body.style.color = "rgb(143 146 164)";
+                document.getElementById('inputString').style.backgroundColor = "rgb(22 30 37)";
+                document.getElementById('inputString').style.color = "rgb(143 146 164)";
+            }
             function saveToLocalStorage() {
                 const inputString = document.getElementById('inputString').value;
                 if (inputString != null) {
